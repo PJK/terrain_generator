@@ -30,4 +30,12 @@ public class SimpleSimplexNoiseTerrain implements TerrainProvider {
     public int getHeightBound() {
         return 90;
     }
+    
+    public float[] getHeightMap() {
+        float res[] = new float[x*y];
+        for (int i = 0; i < x; i++)
+            for (int j = 0; j < y; j++)
+                res[i * y + j] = height(i, j);
+        return res;
+    }
 }

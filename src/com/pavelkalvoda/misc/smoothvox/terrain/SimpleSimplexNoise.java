@@ -10,12 +10,12 @@ import java.util.Random;
  *
  * @author pjk
  */
-// Based on http://staffwww.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf
+// Based on 
+// http://staffwww.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf
 // http://www.csee.umbc.edu/~olano/s2002c36/ch02.pdf
 // http://mrl.nyu.edu/~perlin/doc/oscar.html
 //  + simplified 
 public class SimpleSimplexNoise {
-
     static class Gradient {
 
         public int x, y;
@@ -29,8 +29,7 @@ public class SimpleSimplexNoise {
     // Random lookup table to easily access the same value relative to an intermediate
     // value & the seed - this is the sole source of randomness in the rest of the algorithm
     // The size is arbitrary, anything between 64 and 512 works nicely
-    // Ideally, these would be permutations of 1..size, but it doesn't really matter and this
-    // is fair bit cheaper
+
     private int randLookup[] = new int[128];
 
     private int randLookup(int index) {

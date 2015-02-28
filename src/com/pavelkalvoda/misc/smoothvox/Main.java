@@ -12,6 +12,8 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.system.AppSettings;
+import com.jme3.terrain.geomipmap.TerrainLodControl;
+import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.util.SkyFactory;
 import com.jme3.water.SimpleWaterProcessor;
 import java.awt.Color;
@@ -45,21 +47,21 @@ public class Main extends SimpleApplication {
     @Override
      public void simpleInitApp() {
                 //create processor
-         SimpleWaterProcessor waterProcessor;
-         Spatial waterPlane;
-        waterProcessor = new SimpleWaterProcessor(assetManager);
-        waterProcessor.setReflectionScene(rootNode);
-        waterProcessor.setWaveSpeed(0.05f);
-        waterProcessor.setWaterTransparency(.5f);
-        viewPort.addProcessor(waterProcessor);
-
-        //create water quad
-        waterPlane = waterProcessor.createWaterGeometry(128, -128);
-        waterPlane.setQueueBucket(Bucket.Transparent);
-        waterPlane.setMaterial(waterProcessor.getMaterial());
-        waterPlane.setLocalScale(128);
-        waterPlane.setLocalTranslation(0, 20, 0);
-        rootNode.attachChild(waterPlane);
+//         SimpleWaterProcessor waterProcessor;
+//         Spatial waterPlane;
+//        waterProcessor = new SimpleWaterProcessor(assetManager);
+//        waterProcessor.setReflectionScene(rootNode);
+//        waterProcessor.setWaveSpeed(0.05f);
+//        waterProcessor.setWaterTransparency(.5f);
+//        viewPort.addProcessor(waterProcessor);
+//
+//        //create water quad
+//        waterPlane = waterProcessor.createWaterGeometry(128, -128);
+//        waterPlane.setQueueBucket(Bucket.Transparent);
+//        waterPlane.setMaterial(waterProcessor.getMaterial());
+//        waterPlane.setLocalScale(128);
+//        waterPlane.setLocalTranslation(0, 20, 0);
+//        rootNode.attachChild(waterPlane);
         
         flyCam.setMoveSpeed(40);
         cam.setLocation(new Vector3f(0, 128, 0));
@@ -71,9 +73,9 @@ public class Main extends SimpleApplication {
        
         origin.setMaterial(mat);
         rootNode.attachChild(origin);
-        
-        TerrainProvider terrain = new SimpleSimplexNoiseTerrain(128, 128, 0);
-        (new TerrainRenderer(new TextureMapper(assetManager, terrain.getHeightBound()), terrain, rootNode)).render();
+//        
+//        TerrainProvider terrain = new SimpleSimplexNoiseTerrain(128, 128, 0);
+//        (new TerrainRenderer(new TextureMapper(assetManager, terrain.getHeightBound()), terrain, rootNode)).render();
         // (new TerrainRenderer(new DummyMapper(assetManager), new OpenSimplexNoiseTerrain(256, 256), rootNode)).render();
 
 //
@@ -82,8 +84,14 @@ public class Main extends SimpleApplication {
 //        fpp.addFilter(new CartoonEdgeFilter());
 //        viewPort.addProcessor(fpp);
         
+        terrain = new TerrainQuad("my terrain", 1025, 1025, (new SimpleSimplexNoiseTerrain(1024, 1024, 0)).getHeightMap());
+        rootNode.attachChild(terrain);
+        terrain.setMaterial(new Material(assetManager, "Common/MatDefs/Misc/UnshadedNodes.j3md"));
+        TerrainLodControl control = new TerrainLodControl(terrain, getCamera());
+        terrain.addControl(control);
         rootNode.attachChild(SkyFactory.createSky(assetManager, "Textures/BrightSky.dds", false));
     }
+    private TerrainQuad terrain;
     @Override
     public void simpleUpdate(float tpf) {
         //TODO: add update code
