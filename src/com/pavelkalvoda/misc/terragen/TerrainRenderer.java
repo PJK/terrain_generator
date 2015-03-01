@@ -2,14 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pavelkalvoda.misc.smoothvox;
+package com.pavelkalvoda.misc.terragen;
 
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
-import com.pavelkalvoda.misc.smoothvox.mapping.HeightMapper;
-import com.pavelkalvoda.misc.smoothvox.terrain.TerrainProvider;
+import com.pavelkalvoda.misc.terragen.mapping.HeightMapper;
+import com.pavelkalvoda.misc.terragen.terrain.TerrainProvider;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
