@@ -15,10 +15,6 @@ public class GridDisplacer {
     public GridDisplacer(int chunkSize, Vector2i chunkLocation) {
         this.chunkSize = chunkSize;
         this.chunkLocation = chunkLocation;
-//        if (chunkLocation.x > 0)
-//            chunkLocation.x--;
-//        if (chunkLocation.y > 0)
-//            chunkLocation.y--;
     }
     
     public int displaceX(int coord) {

@@ -20,6 +20,7 @@ public class SimpleSimplexNoiseTerrain implements HeightMap {
     int size;
     SimpleSimplexNoise noisegen;
     GridDisplacer displacer;
+    float map[];
 
     public SimpleSimplexNoiseTerrain(int size, GridDisplacer displacer, SimpleSimplexNoise noisegen) {
         this.noisegen = noisegen;
@@ -28,24 +29,19 @@ public class SimpleSimplexNoiseTerrain implements HeightMap {
     }
 
     
-    private final double featureQuant = 50;
-    public int  height(int x, int y) {
-        return (int)((noisegen.noise(x / featureQuant, y / featureQuant) + 1) * getHeightBound() / 2);
+    private final double featureQuant = 200;
+    
+    public float height(int x, int y) {
+        return (float)(noisegen.noise(x / featureQuant, y / featureQuant) + 1) * getHeightBound() / 2;
     }
+    
     public int getHeightBound() {
-        return 90;
+        return 32;
     }
     
     public float[] getHeightMap() {
-        float res[] = new float[size * size];
-        for (int x = 0; x < size; x++)
-            for (int y = 0; y < size; y++) {
-                //logger.log(Level.WARNING, "Generating sample at ({0}, {1})", new Object[] { displacer.displaceX(x), displacer.displaceY(y) });
-               // System.out.println(displacer.displaceX(x));
-                res[y * size + x] = height(displacer.displaceX(x), displacer.displaceY(y));
-                //res[x * size + y] = height(x, y);
-            }
-        return res;
+        load();
+        return map;
     }
 
     public float[] getScaledHeightMap() {
@@ -57,11 +53,12 @@ public class SimpleSimplexNoiseTerrain implements HeightMap {
     }
 
     public float getScaledHeightAtPoint(int x, int z) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        load();
+        return map[z * size + x];
     }
 
     public int getSize() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return size;
     }
 
     public float getTrueHeightAtPoint(int x, int z) {
@@ -69,7 +66,15 @@ public class SimpleSimplexNoiseTerrain implements HeightMap {
     }
 
     public boolean load() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (map == null) {
+            map = new float[size * size];
+            for (int x = 0; x < size; x++)
+                for (int y = 0; y < size; y++)
+                    map[y * size + x] = height(displacer.displaceX(x), displacer.displaceY(y));
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void setHeightAtPoint(float height, int x, int z) {

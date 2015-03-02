@@ -27,6 +27,7 @@ import com.jme3.texture.image.ImageRaster;
 import com.jme3.util.BufferUtils;
 import com.jme3.util.SkyFactory;
 import com.jme3.water.SimpleWaterProcessor;
+import com.pavelkalvoda.misc.terragen.mapping.UniformSplatGenerator;
 import java.awt.Color;
 
 import com.pavelkalvoda.misc.terragen.terrain.loading.DynamicTileQuadLoader;
@@ -46,7 +47,7 @@ public class Main extends SimpleApplication {
     public static void main(String[] args) {
         AppSettings settings = new AppSettings(true);
         settings.setFrameRate(30);
-        settings.setResolution(640, 480);
+        settings.setResolution(1280, 720);
         //settings.setFullscreen(true);
         settings.setFrequency(50);
         Main app = new Main();
@@ -95,50 +96,19 @@ public class Main extends SimpleApplication {
 //        fpp.addFilter(new CartoonEdgeFilter());
 //        viewPort.addProcessor(fpp);
         
-        Material mat_terrain = new Material(assetManager, "Common/MatDefs/Terrain/Terrain.j3md");
-        //mat_terrain.setBoolean("useTriPlanarMapping", false);
-        Texture alpha = new Texture2D();
-        alpha.setImage( generateImage(2048, 2048));
-        
-//        mat_terrain.setTexture("Alpha", assetManager.loadTexture(
-//            "Textures/alphamap.png"));
-   
-       mat_terrain.setTexture("Alpha", alpha);
-   
-         Texture grass = assetManager.loadTexture(
-            "Textures/Grass.jpg");
-    grass.setWrap(WrapMode.Repeat);
-    mat_terrain.setTexture("Tex1", grass);
-    mat_terrain.setFloat("Tex1Scale", 32f);
-    
-    terrain = new TerrainGrid("terrain", 33, 129, new DynamicTileQuadLoader());
 
-        this.terrain.setMaterial(mat_terrain);
-        this.terrain.setLocalTranslation(0, 0, 0);
-        this.terrain.setLocalScale(2f, 1f, 2f);
-        
+    terrain = new TerrainGrid("terrain", 65, 513, new DynamicTileQuadLoader(new UniformSplatGenerator(assetManager)));
+
         //terrain = 
         rootNode.attachChild(terrain);
         
-         TerrainLodControl control = new TerrainGridLodControl(this.terrain, this.getCamera());
-        control.setLodCalculator(new DistanceLodCalculator(33, 2.7f)); // patch size, and a multiplier
+         TerrainLodControl control = new TerrainGridLodControl(terrain, getCamera());
+        control.setLodCalculator(new DistanceLodCalculator(65, 2.7f)); // patch size, and a multiplier
         this.terrain.addControl(control);
 
         rootNode.attachChild(SkyFactory.createSky(assetManager, "Textures/BrightSky.dds", false));
     }
-    public static Image generateImage(int width, int height) {
-Image testImage = new Image(Format.RGBA8, width, height, BufferUtils.createByteBuffer(4 *width * height));
-        
-        ImageRaster io = ImageRaster.create(testImage);
-ByteBuffer bb = ByteBuffer.allocateDirect(width * height * 4);
 
-for (int i = 0; i < width; i++)
-    for (int j = 0; j < height; j++)
-           io.setPixel(i, j, ColorRGBA.Red);
-          
-return testImage;
-
-}
 
 
     private TerrainQuad terrain;

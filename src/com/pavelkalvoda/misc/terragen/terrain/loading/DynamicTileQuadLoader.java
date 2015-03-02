@@ -10,7 +10,9 @@ import com.jme3.math.Vector3f;
 import com.jme3.terrain.geomipmap.TerrainGridTileLoader;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.pavelkalvoda.misc.terragen.GridDisplacer;
+import com.pavelkalvoda.misc.terragen.ImageTools;
 import com.pavelkalvoda.misc.terragen.Vector2i;
+import com.pavelkalvoda.misc.terragen.mapping.SplatGenerator;
 import com.pavelkalvoda.misc.terragen.terrain.SimpleSimplexNoise;
 import com.pavelkalvoda.misc.terragen.terrain.SimpleSimplexNoiseTerrain;
 import java.io.IOException;
@@ -27,20 +29,26 @@ public class DynamicTileQuadLoader implements TerrainGridTileLoader {
     private int patchSize;
     private int quadSize;
     SimpleSimplexNoise generator = new SimpleSimplexNoise(0);
+    SplatGenerator splatter;
+    
+    public DynamicTileQuadLoader(SplatGenerator splatter) {
+        this.splatter = splatter;
+    }
 
     public TerrainQuad getTerrainQuadAt(Vector3f location) {
-        logger.info(location.toString());
-        logger.log(Level.WARNING, "{0}, {1}:", new Object[]{ location.x, location.z });
-        return new TerrainQuad(
-                    "my terrain",
-                    patchSize,
-                    quadSize,
-                    (new SimpleSimplexNoiseTerrain(
-                        quadSize,
-                        new GridDisplacer(quadSize - 1, new Vector2i(location)),
-                        generator)
-                    ).getHeightMap()
-                );
+        SimpleSimplexNoiseTerrain terrain = new SimpleSimplexNoiseTerrain(
+                                                quadSize,
+                                                new GridDisplacer(quadSize - 1, new Vector2i(location)),
+                                                generator);
+        TerrainQuad quad = new TerrainQuad(
+                                "my terrain",
+                                patchSize,
+                                quadSize,
+                                terrain.getHeightMap()
+                            );
+        ImageTools.saveHeightmapToImage(terrain.getHeightMap(), quadSize, "out_terrain" + location + ".png");
+        quad.setMaterial(splatter.splatForTile(terrain, location));
+        return quad;
     }
 
     public void setPatchSize(int patchSize) {
