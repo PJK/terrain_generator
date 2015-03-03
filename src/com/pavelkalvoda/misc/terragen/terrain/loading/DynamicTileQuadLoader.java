@@ -11,7 +11,7 @@ import com.jme3.terrain.geomipmap.TerrainGridTileLoader;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.heightmap.HeightMap;
 import com.pavelkalvoda.misc.terragen.GridDisplacer;
-import com.pavelkalvoda.misc.terragen.ImageTools;
+import com.pavelkalvoda.misc.terragen.images.ImageTool;
 import com.pavelkalvoda.misc.terragen.Loader;
 import com.pavelkalvoda.misc.terragen.Vector2i;
 import java.io.IOException;
@@ -44,8 +44,10 @@ public class DynamicTileQuadLoader implements TerrainGridTileLoader {
                                 terrain.getHeightMap()
                             );
         
-        ImageTools.saveHeightmapToImage(terrain.getHeightMap(), quadSize, "out_terrain" + location + ".png");
+        loader.getImageWriter().saveHeightmapToImage(terrain.getHeightMap(), quadSize, "out_terrain" + location + ".png");
+        
         quad.setMaterial(loader.getSplatter().splatForTile(terrain, location));
+        
         return quad;
     }
 

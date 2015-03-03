@@ -14,27 +14,28 @@ import com.jme3.texture.Texture;
 import com.jme3.texture.Texture2D;
 import com.jme3.texture.image.ImageRaster;
 import com.jme3.util.BufferUtils;
-import com.pavelkalvoda.misc.terragen.ImageTools;
+import com.pavelkalvoda.misc.terragen.Loader;
+import com.pavelkalvoda.misc.terragen.images.ImageTool;
 
 /**
  *
  * @author pjk
  */
 public class UniformHeightmapSplatter implements SplatGenerator {
-    AssetManager assetManager;
+    protected AssetManager assetManager;
+    protected Loader loader;
 
-    public UniformHeightmapSplatter(AssetManager assetManager) {
+    public UniformHeightmapSplatter(AssetManager assetManager, Loader loader) {
         this.assetManager = assetManager;
+        this.loader = loader;
     }
 
     public Material splatForTile(HeightMap provider, Vector3f location) {
         Texture alpha = new Texture2D();
         alpha.setImage(generateImage(provider.getSize(), provider));
-        ImageTools.saveImage(generateImage(provider.getSize(), provider), "out" + location + ".png");
         
+        loader.getImageWriter().saveImage(generateImage(provider.getSize(), provider), "out" + location + ".png");
 
-        //        mat_terrain.setTexture("Alpha", assetManager.loadTexture(
-        //            "Textures/alphamap.png"));
         Material mat = new Material();
         //mat.setTexture("Alpha", alpha);
         return mat;

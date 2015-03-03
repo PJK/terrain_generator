@@ -13,14 +13,9 @@ import com.jme3.terrain.geomipmap.*;
 import com.jme3.terrain.geomipmap.lodcalc.DistanceLodCalculator;
 import com.jme3.util.SkyFactory;
 
-import com.pavelkalvoda.misc.terragen.mapping.SimpleHeightmapSplatter;
 import com.pavelkalvoda.misc.terragen.terrain.loading.DynamicTileQuadLoader;
 
 
-/**
- * test
- * @author normenhansen
- */
 public class Main extends SimpleApplication {
     Config cfg;
     FilterPostProcessor fpp;

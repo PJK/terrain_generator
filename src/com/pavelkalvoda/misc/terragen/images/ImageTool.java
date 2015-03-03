@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pavelkalvoda.misc.terragen;
+package com.pavelkalvoda.misc.terragen.images;
 
 import com.jme3.math.ColorRGBA;
 import com.jme3.system.JmeSystem;
@@ -19,15 +19,21 @@ import javax.imageio.ImageIO;
  *
  * @author pjk
  */
-public class ImageTools {
-    public static void saveImage(Image img, String path) {
+public class ImageTool implements ImageWriter {
+    protected String basePath;
+
+    public ImageTool(String basePath) {
+        this.basePath = basePath;
+    }
+    
+    public void saveImage(Image img, String path) {
         try {
             // retrieve image
             JmeSystem.writeImageFile(new FileOutputStream(path, false), "png", img.getData(0), img.getWidth(), img.getHeight());
         } catch (IOException e) {}
     }
      
-    public static void saveHeightmapToImage(float[] map, int size, String path) {
+    public void saveHeightmapToImage(float[] map, int size, String path) {
         Image testImage = new Image(Image.Format.RGBA8, size, size, BufferUtils.createByteBuffer(4 * size * size));
         ImageRaster io = ImageRaster.create(testImage);
         for (int i = 0; i < size; i++)

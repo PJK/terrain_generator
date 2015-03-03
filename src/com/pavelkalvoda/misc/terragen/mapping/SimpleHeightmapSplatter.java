@@ -14,7 +14,7 @@ import com.jme3.texture.Texture;
 import com.jme3.texture.Texture2D;
 import com.jme3.texture.image.ImageRaster;
 import com.jme3.util.BufferUtils;
-import com.pavelkalvoda.misc.terragen.ImageTools;
+import com.pavelkalvoda.misc.terragen.images.ImageTool;
 
 /**
  *
