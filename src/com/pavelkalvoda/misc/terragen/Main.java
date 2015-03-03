@@ -24,6 +24,7 @@ import com.pavelkalvoda.misc.terragen.terrain.loading.DynamicTileQuadLoader;
 public class Main extends SimpleApplication {
     Config cfg;
     FilterPostProcessor fpp;
+    Loader loader;
     
     public static void main(String[] args) {
         Main app = new Main();
@@ -32,6 +33,7 @@ public class Main extends SimpleApplication {
         } catch (Config.HelpRunException e) {
             return;
         }
+        
         app.initConfig();
         app.start();
     }
@@ -91,7 +93,9 @@ public class Main extends SimpleApplication {
         initFilters();
         initSkyline();
 
-        terrain = new TerrainGrid("terrain", cfg.patch, cfg.tile, new DynamicTileQuadLoader(new SimpleHeightmapSplatter(assetManager)));
+        loader = new Loader(cfg, assetManager);
+        
+        terrain = new TerrainGrid("terrain", cfg.patch, cfg.tile, new DynamicTileQuadLoader(loader));
         rootNode.attachChild(terrain);
         initLODControl();
         
