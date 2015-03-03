@@ -78,13 +78,13 @@ public class Main extends SimpleApplication {
      public void simpleInitApp() {
                 
 
-    terrain = new TerrainGrid("terrain", 129, 1025, new DynamicTileQuadLoader(new SimpleHeightmapSplatter(assetManager)));
+    terrain = new TerrainGrid("terrain", 513, 2049, new DynamicTileQuadLoader(new SimpleHeightmapSplatter(assetManager)));
 
         //terrain = 
         rootNode.attachChild(terrain);
         
          TerrainLodControl control = new TerrainGridLodControl(terrain, getCamera());
-        control.setLodCalculator(new DistanceLodCalculator(129, 2.7f)); // patch size, and a multiplier
+        control.setLodCalculator(new DistanceLodCalculator(513, 2.7f)); // patch size, and a multiplier
         terrain.addControl(control);
 
         rootNode.attachChild(SkyFactory.createSky(assetManager, "Textures/BrightSky.dds", false));

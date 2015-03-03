@@ -35,7 +35,7 @@ public class UniformHeightmapSplatter implements SplatGenerator {
 
         //        mat_terrain.setTexture("Alpha", assetManager.loadTexture(
         //            "Textures/alphamap.png"));
-        Material mat = buildBaseMaterial();
+        Material mat = new Material();
         //mat.setTexture("Alpha", alpha);
         return mat;
 

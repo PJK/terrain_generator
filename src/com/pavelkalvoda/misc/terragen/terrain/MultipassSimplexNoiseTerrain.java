@@ -35,14 +35,19 @@ public class MultipassSimplexNoiseTerrain implements HeightMap {
         this.noisegen = noisegen;
         this.size = size;
         this.displacer = displacer;
-        octs = new Octave[] { new Octave(1, 1) };
+        octs = new Octave[] { 
+            new Octave(.05f, 1.2f),
+            new Octave(.6f, .9f),
+            new Octave(2, 0.5f),
+            new Octave(6, .2f) 
+        };
     }
 
     
     private final double featureQuant = 512;
     
     public float height(float x, float y) {
-        return (float)(noisegen.noise(x / featureQuant, y / featureQuant) + 1) * 64 + 32;
+        return (float)(noisegen.noise(x / featureQuant, y / featureQuant) + 1) * 64;
     }
     
     
@@ -78,11 +83,12 @@ public class MultipassSimplexNoiseTerrain implements HeightMap {
             for (int x = 0; x < size; x++)
                 for (int y = 0; y < size; y++) {
                     map[y * size + x] = 0f;
-                    for (Octave oct : octs)
+                    for (Octave oct : octs) {
                         map[y * size + x] += oct.amp * height(
-                                    displacer.displaceX(oct.freq * x), 
-                                    displacer.displaceY(oct.freq * y)
+                                    oct.freq * displacer.displaceX(x), 
+                                    oct.freq * displacer.displaceY(y)
                                 );
+                    }
                 }
             return true;
         } else {

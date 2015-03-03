@@ -9,10 +9,13 @@ import com.jme3.export.JmeImporter;
 import com.jme3.math.Vector3f;
 import com.jme3.terrain.geomipmap.TerrainGridTileLoader;
 import com.jme3.terrain.geomipmap.TerrainQuad;
+import com.jme3.terrain.heightmap.HeightMap;
 import com.pavelkalvoda.misc.terragen.GridDisplacer;
 import com.pavelkalvoda.misc.terragen.ImageTools;
 import com.pavelkalvoda.misc.terragen.Vector2i;
+import com.pavelkalvoda.misc.terragen.mapping.SimpleHeightmapSplatter;
 import com.pavelkalvoda.misc.terragen.mapping.SplatGenerator;
+import com.pavelkalvoda.misc.terragen.terrain.MultipassSimplexNoiseTerrain;
 import com.pavelkalvoda.misc.terragen.terrain.SimpleSimplexNoise;
 import com.pavelkalvoda.misc.terragen.terrain.SimpleSimplexNoiseTerrain;
 import java.io.IOException;
@@ -36,7 +39,7 @@ public class DynamicTileQuadLoader implements TerrainGridTileLoader {
     }
 
     public TerrainQuad getTerrainQuadAt(Vector3f location) {
-        SimpleSimplexNoiseTerrain terrain = new SimpleSimplexNoiseTerrain(
+        HeightMap terrain = new MultipassSimplexNoiseTerrain(
                                                 quadSize,
                                                 new GridDisplacer(quadSize - 1, new Vector2i(location)),
                                                 generator);
