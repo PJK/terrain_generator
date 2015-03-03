@@ -43,6 +43,8 @@ public class Loader {
         switch (cfg.mapping) {
             case Simple:
                 splatter = new SimpleHeightmapSplatter(assetManager);
+            case Uniform:
+                splatter = new UniformHeightmapSplatter(assetManager, this);
         }
     }
     

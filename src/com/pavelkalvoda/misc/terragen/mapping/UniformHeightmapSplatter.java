@@ -11,6 +11,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.terrain.heightmap.HeightMap;
 import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
+import com.jme3.texture.Texture.WrapMode;
 import com.jme3.texture.Texture2D;
 import com.jme3.texture.image.ImageRaster;
 import com.jme3.util.BufferUtils;
@@ -36,8 +37,22 @@ public class UniformHeightmapSplatter implements SplatGenerator {
         
         loader.getImageWriter().saveImage(generateImage(provider.getSize(), provider), "out" + location + ".png");
 
-        Material mat = new Material();
-        //mat.setTexture("Alpha", alpha);
+        Material mat = new Material(assetManager, "Common/MatDefs/Terrain/Terrain.j3md");
+        mat.setTexture("Alpha", alpha);
+        Texture grass = assetManager.loadTexture("Textures/Grass.jpg");
+        grass.setWrap(WrapMode.Repeat);
+        mat.setTexture("Tex1", grass);
+        mat.setFloat("Tex1Scale", 32f);
+        // load dirt texture
+        Texture dirt = assetManager.loadTexture("Textures/Rock.jpg");
+        dirt.setWrap(WrapMode.Repeat);
+        mat.setTexture("Tex2", dirt);
+        mat.setFloat("Tex2Scale", 32f);
+        // load rock texture
+        Texture rock = assetManager.loadTexture("Textures/Snow.jpg");
+        rock.setWrap(WrapMode.Repeat);
+        mat.setTexture("Tex3", rock);
+        mat.setFloat("Tex3Scale", 32f);
         return mat;
 
     }
@@ -48,10 +63,15 @@ public class UniformHeightmapSplatter implements SplatGenerator {
             for (int j = 0; j < size; j++) {
                 ColorRGBA c = new ColorRGBA();
                 //System.out.println(bellFunction(provider.getScaledHeightAtPoint(j, i), 30));
-                c.r =  1;
-                c.g =  0;
-                c.b =  provider.getScaledHeightAtPoint(j, i) / 256;
-                io.setPixel(i, size -1 -j, c);
+                Vector3f tmp = new Vector3f(
+                        bellFunction(provider.getScaledHeightAtPoint(i, size - 1 - j), 150, 100),
+                        bellFunction(provider.getScaledHeightAtPoint(i, size - 1 - j), 240, 40),
+                        bellFunction(provider.getScaledHeightAtPoint(i, size - 1 - j), 350, 100));
+                tmp.normalize();
+                c.r =  tmp.x;
+                c.g =  tmp.y;
+                c.b =  tmp.z;
+                io.setPixel(i, j, c);
             }
         return testImage;
 
@@ -59,11 +79,7 @@ public class UniformHeightmapSplatter implements SplatGenerator {
     
     // Bell shaped function similar to normal PDF
     // http://www.bindichen.co.uk/post/Fundamentals/bell-shaped-function.html
-    protected static float bellFunction(float x, double c) {
-        float inter = (float)(1 / (1 + Math.pow((x - c) / 90, 2 * .8)));
-        if (inter == Float.NaN)
-            return 0.5f;
-        else
-            return inter;
+    protected static float bellFunction(float x, double c, double a) {
+       return (float)(1 / (1 + Math.pow(Math.abs((x - c) / a), 2 * 3)));
     }
 }
