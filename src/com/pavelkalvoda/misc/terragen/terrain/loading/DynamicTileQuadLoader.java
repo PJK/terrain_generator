@@ -33,7 +33,7 @@ public class DynamicTileQuadLoader implements TerrainGridTileLoader {
     private int quadSize;
     SimpleSimplexNoise generator = new SimpleSimplexNoise(0);
     SplatGenerator splatter;
-    
+
     public DynamicTileQuadLoader(SplatGenerator splatter) {
         this.splatter = splatter;
     }

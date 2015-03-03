@@ -40,7 +40,6 @@ public class Config {
             opts.addLast(arg); //Thanks Java
         
         String last;
-        System.out.println(opts);
         while (!opts.isEmpty()) {
             switch(last = opts.pop()) {
                 case "-h":
