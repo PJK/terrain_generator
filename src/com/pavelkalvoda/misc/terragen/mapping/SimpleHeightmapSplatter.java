@@ -45,18 +45,18 @@ public class SimpleHeightmapSplatter implements SplatGenerator {
         Texture sand = assetManager.loadTexture("Textures/Sand.jpg");
         sand.setWrap(Texture.WrapMode.Repeat);
         baseMaterial.setTexture("region1ColorMap", sand);
-        baseMaterial.setVector3("region1", new Vector3f(0, 50, 32f));
+        baseMaterial.setVector3("region1", new Vector3f(0, 70, 32f));
         
         Texture grass = assetManager.loadTexture("Textures/Grass.jpg");
         grass.setWrap(Texture.WrapMode.Repeat);
         baseMaterial.setTexture("region2ColorMap", grass);
-        baseMaterial.setVector3("region2", new Vector3f(50, 210, 32f));
+        baseMaterial.setVector3("region2", new Vector3f(70, 170, 32f));
         
         
         Texture snow = assetManager.loadTexture("Textures/Snow.jpg");
         snow.setWrap(Texture.WrapMode.Repeat);
         baseMaterial.setTexture("region3ColorMap", snow);
-        baseMaterial.setVector3("region3", new Vector3f(210, 250, 32f));
+        baseMaterial.setVector3("region3", new Vector3f(170, 500, 32f));
         
         Texture rock = assetManager.loadTexture("Textures/Rock.jpg");
         rock.setWrap(Texture.WrapMode.Repeat);

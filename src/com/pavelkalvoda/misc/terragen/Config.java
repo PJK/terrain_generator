@@ -4,11 +4,9 @@
  */
 package com.pavelkalvoda.misc.terragen;
 
-import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.ArrayDeque;
+
 
 /**
  *
@@ -28,22 +26,84 @@ public class Config {
     protected Terrain terrain = Terrain.Multipass;
     protected Mapping mapping = Mapping.Simple;
     protected int patch = 513, tile = 1025;
+    protected String bitmapsDir;
     
+    // Signals errorneous configuration - we still want a clean shutdown
     public class HelpRunException extends RuntimeException {}
     
     public Config(String[] args) {
-        List<String> opts = Arrays.asList(args);
+        ArrayDeque<String> opts = new ArrayDeque<>();
+        
+        for (String arg : args)
+            opts.addLast(arg); //Thanks Java
+        
+        String last;
+        System.out.println(opts);
         while (!opts.isEmpty()) {
-            switch(opts.get(0)) {
+            switch(last = opts.pop()) {
                 case "-h":
+                    printUsage(System.out);
+                    throw new HelpRunException();
+                case "--no-water":
+                    water = false;
+                    break;
+                case "--water":
+                    water = true;
+                    break;
+                case "--seed":
+                    seed = Long.parseLong(opts.pop());
+                    break;
+                case "--terrain":
+                    switch(opts.pop()) {
+                        case "multipass":
+                            terrain = Terrain.Multipass;
+                            break;
+                        case "simple":
+                            terrain = Terrain.Simple;
+                            break;
+                        default:
+                            System.out.println("Unrecognized entry for --terrain");
+                            printUsage(System.out);
+                            throw new HelpRunException();
+                    }
+                    break;
+                case "--mapping":
+                    switch(opts.pop()) {
+                        case "simple":
+                            mapping = Mapping.Simple;
+                            break;
+                        case "uniform":
+                            mapping = Mapping.Uniform;
+                            break;
+                        case "randomized":
+                            mapping = Mapping.Randomized;
+                            break;
+                        default:
+                            System.out.println("Unrecognized entry for --mapping");
+                            printUsage(System.out);
+                            throw new HelpRunException();
+                    }
+                    break;
+                case "--size":
+                    patch = Integer.parseInt(opts.pop());
+                    tile = Integer.parseInt(opts.pop());
+                    break;
+                case "--write-bitmaps":
+                    bitmapsDir = opts.pop();
+                    break;
+                default:
+                    System.out.println("Unrecognized option " + last);
                     printUsage(System.out);
                     throw new HelpRunException();
             }
         }
+        
     }
     
     public static void printUsage(PrintStream out) {
-        out.println("Usage:\t-h --[no-]water --seed <seed>\n\t--terrain multipass|simple --mapping simple|uniform|randomized\n\t--size <patch> <tile> --write-bitmaps <dir>\n");
+        // Heredoc is too cool for Java
+        // So is built in CLI parser
+        out.println("Usage:\tjava -jar path_to/terrain_generator.jar -h --[no-]water --seed <seed>\n\t--terrain multipass|simple --mapping simple|uniform|randomized\n\t--size <patch> <tile> --write-bitmaps <dir>\n");
         out.println("All of the options are optional.\n");
         
         out.println("\t--[no-]water\t\tShow water\n");
@@ -62,8 +122,31 @@ public class Config {
         out.println("\t--write-bitmaps\t\tOutput PNG heightmaps & texture splatting alpha maps to\n\t\t\t\tthe specified directory");
     }
     
-    public boolean waterEnabled() {
+    public boolean getWaterEnabled() {
         return water;
     }
     
+    public long getSeed() {
+        return seed;
+    }
+
+    public Terrain getTerrain() {
+        return terrain;
+    }
+
+    public Mapping getMapping() {
+        return mapping;
+    }
+
+    public int getPatch() {
+        return patch;
+    }
+
+    public int getTile() {
+        return tile;
+    }
+
+    public String getBitmapsDir() {
+        return bitmapsDir;
+    }
 }
