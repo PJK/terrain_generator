@@ -40,6 +40,7 @@ public class DynamicTileQuadLoader implements TerrainGridTileLoader {
                                                 quadSize,
                                                 new GridDisplacer(quadSize - 1, new Vector2i(location)),
                                                 generator);
+        
         TerrainQuad quad = new TerrainQuad(
                                 "my terrain",
                                 patchSize,

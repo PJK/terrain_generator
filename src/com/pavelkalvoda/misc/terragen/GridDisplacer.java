@@ -17,15 +17,15 @@ public class GridDisplacer {
         this.chunkLocation = chunkLocation;
     }
     
-    public int displaceX(int coord) {
+    public float displaceX(float coord) {
         return displaceWith(coord, chunkLocation.x);
     }
     
-    public int displaceY(int coord) {
+    public float displaceY(float coord) {
         return displaceWith(coord, chunkLocation.y);
     }
     
-    protected int displaceWith(int coord, int globalOffset) {
+    protected float displaceWith(float coord, float globalOffset) {
         return globalOffset * chunkSize + coord;
     }
 }

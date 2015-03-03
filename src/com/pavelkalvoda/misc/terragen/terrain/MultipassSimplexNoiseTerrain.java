@@ -4,28 +4,38 @@
  */
 package com.pavelkalvoda.misc.terragen.terrain;
 
-import com.jme3.terrain.geomipmap.TerrainGridTileLoader;
 import com.jme3.terrain.heightmap.HeightMap;
 import com.pavelkalvoda.misc.terragen.GridDisplacer;
-import com.pavelkalvoda.misc.terragen.Vector2i;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  *
  * @author pjk
  */
-public class SimpleSimplexNoiseTerrain implements HeightMap {
-    private static final Logger logger = Logger.getLogger(SimpleSimplexNoiseTerrain.class.getName());
+public class MultipassSimplexNoiseTerrain implements HeightMap {
+    private static final Logger logger = Logger.getLogger(MultipassSimplexNoiseTerrain.class.getName());
+    
+    // Similar to http://libnoise.sourceforge.net/glossary/#octave
+    class Octave {
+        public float freq, amp;
+
+        public Octave(float freq, float amp) {
+            this.freq = freq;
+            this.amp = amp;
+        }
+    }
+    
+    Octave[] octs;
     int size;
     SimpleSimplexNoise noisegen;
     GridDisplacer displacer;
     float map[];
 
-    public SimpleSimplexNoiseTerrain(int size, GridDisplacer displacer, SimpleSimplexNoise noisegen) {
+    public MultipassSimplexNoiseTerrain(int size, GridDisplacer displacer, SimpleSimplexNoise noisegen) {
         this.noisegen = noisegen;
         this.size = size;
         this.displacer = displacer;
+        octs = new Octave[] { new Octave(1, 1) };
     }
 
     
@@ -66,8 +76,14 @@ public class SimpleSimplexNoiseTerrain implements HeightMap {
         if (map == null) {
             map = new float[size * size];
             for (int x = 0; x < size; x++)
-                for (int y = 0; y < size; y++)
-                    map[y * size + x] = height(displacer.displaceX(x), displacer.displaceY(y));
+                for (int y = 0; y < size; y++) {
+                    map[y * size + x] = 0f;
+                    for (Octave oct : octs)
+                        map[y * size + x] += oct.amp * height(
+                                    displacer.displaceX(oct.freq * x), 
+                                    displacer.displaceY(oct.freq * y)
+                                );
+                }
             return true;
         } else {
             return false;
@@ -93,4 +109,5 @@ public class SimpleSimplexNoiseTerrain implements HeightMap {
     public void unloadHeightMap() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
 }

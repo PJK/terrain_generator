@@ -20,11 +20,10 @@ import com.pavelkalvoda.misc.terragen.ImageTools;
  *
  * @author pjk
  */
-public class UniformSplatGenerator implements SplatGenerator {
-
+public class UniformHeightmapSplatter implements SplatGenerator {
     AssetManager assetManager;
 
-    public UniformSplatGenerator(AssetManager assetManager) {
+    public UniformHeightmapSplatter(AssetManager assetManager) {
         this.assetManager = assetManager;
     }
 
@@ -41,33 +40,7 @@ public class UniformSplatGenerator implements SplatGenerator {
         return mat;
 
     }
-
-    protected Material buildBaseMaterial() {
-        Material baseMaterial = new Material(assetManager, "Common/MatDefs/Terrain/HeightBasedTerrain.j3md");
-        //Material baseMaterial = new Material(assetManager, "Common/MatDefs/Terrain/HeightBasedTerrain.j3md");
-        //baseMaterial.setBoolean("useTriPlanarMapping", false);
-        Texture grass = assetManager.loadTexture("Textures/Grass.jpg");
-        grass.setWrap(Texture.WrapMode.Repeat);
-        baseMaterial.setTexture("region1ColorMap", grass);
-        baseMaterial.setVector3("region1", new Vector3f(0, 60, 32f));
-        baseMaterial.setFloat("slopeTileFactor", 32);
-        baseMaterial.setFloat("terrainSize", 513);
-        //baseMaterial.setFloat("Tex1Scale", 32f);
-        Texture grassy_rock = assetManager.loadTexture("Textures/Pond.jpg");
-        grassy_rock.setWrap(Texture.WrapMode.Repeat);
-        baseMaterial.setTexture("region3ColorMap", grassy_rock);
-        baseMaterial.setVector3("region3", new Vector3f(-30, -10, 32f));
-        //baseMaterial.setTexture("Tex2", grassy_rock);
-        //baseMaterial.setFloat("Tex2Scale", 32f);
-        Texture rock = assetManager.loadTexture("Textures/Rock.jpg");
-        rock.setWrap(Texture.WrapMode.Repeat);
-        baseMaterial.setTexture("slopeColorMap", rock);
-        //baseMaterial.setTexture("Tex3", rock);
-        //baseMaterial.setFloat("Tex3Scale", 32f);
-        return baseMaterial;
-    }
-
-    protected Image generateImage(int size, HeightMap provider) {
+        protected Image generateImage(int size, HeightMap provider) {
         Image testImage = new Image(Image.Format.RGBA8, size, size, BufferUtils.createByteBuffer(4 * size * size));
         ImageRaster io = ImageRaster.create(testImage);
         for (int i = 0; i < size; i++)
