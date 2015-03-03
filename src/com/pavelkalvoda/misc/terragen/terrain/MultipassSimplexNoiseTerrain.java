@@ -37,7 +37,8 @@ public class MultipassSimplexNoiseTerrain implements HeightMap {
             new Octave(.6f, 4f),
             new Octave(2, 1f),
             new Octave(6, .5f),
-            new Octave(10, .2f) 
+            new Octave(10, .2f),
+                new Octave(20, .1f) 
         };
     }
 

@@ -21,4 +21,9 @@ public class Vector2i {
         public Vector2i(Vector3f vec) {
             this((int)vec.x, (int)vec.z);
         }
+        
+        @Override
+        public String toString() {
+            return String.format("(%d, %d)", x, y);
+        }
 }

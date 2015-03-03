@@ -1,49 +1,20 @@
 package com.pavelkalvoda.misc.terragen;
 
-import com.pavelkalvoda.misc.terragen.terrain.SimpleSimplexNoiseTerrain;
 import com.jme3.app.SimpleApplication;
-import com.jme3.audio.AudioNode;
-import com.jme3.audio.LowPassFilter;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.post.FilterPostProcessor;
-import com.jme3.post.filters.BloomFilter;
-import com.jme3.post.filters.CartoonEdgeFilter;
-import com.jme3.post.filters.DepthOfFieldFilter;
-import com.jme3.post.filters.LightScatteringFilter;
-import com.jme3.renderer.RenderManager;
-import com.jme3.renderer.queue.RenderQueue.Bucket;
-import com.jme3.renderer.queue.RenderQueue.ShadowMode;
+import com.jme3.post.filters.*;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.system.AppSettings;
-import com.jme3.terrain.geomipmap.TerrainGrid;
-import com.jme3.terrain.geomipmap.TerrainGridLodControl;
-import com.jme3.terrain.geomipmap.TerrainLodControl;
-import com.jme3.terrain.geomipmap.TerrainQuad;
+import com.jme3.terrain.geomipmap.*;
 import com.jme3.terrain.geomipmap.lodcalc.DistanceLodCalculator;
-import com.jme3.texture.Image;
-import com.jme3.texture.Image.Format;
-import com.jme3.texture.Texture;
-import com.jme3.texture.Texture.WrapMode;
-import com.jme3.texture.Texture2D;
-import com.jme3.texture.image.ImageRaster;
-import com.jme3.util.BufferUtils;
 import com.jme3.util.SkyFactory;
-import com.jme3.water.SimpleWaterProcessor;
-import com.jme3.water.WaterFilter;
-import com.pavelkalvoda.misc.terragen.mapping.SimpleHeightmapSplatter;
-import java.awt.Color;
 
+import com.pavelkalvoda.misc.terragen.mapping.SimpleHeightmapSplatter;
 import com.pavelkalvoda.misc.terragen.terrain.loading.DynamicTileQuadLoader;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import javax.imageio.ImageIO;
 
 
 /**
@@ -52,140 +23,93 @@ import javax.imageio.ImageIO;
  */
 public class Main extends SimpleApplication {
     Config cfg;
+    FilterPostProcessor fpp;
     
     public static void main(String[] args) {
-       
-        AppSettings settings = new AppSettings(true);
-        settings.setFrameRate(30);
-        settings.setResolution(1280, 720);
-        //settings.setFullscreen(true);
-        settings.setFrequency(30);
         Main app = new Main();
         try {
             app.cfg = new Config(args);
         } catch (Config.HelpRunException e) {
             return;
         }
-        app.setSettings(settings);
-        app.setShowSettings(false);
+        app.initConfig();
         app.start();
     }
-
-    private Vector3f lightDir = new Vector3f(-4.9236743f, -1.27054665f, 5.896916f);
-    private WaterFilter water;
-    Material matRock;
-        //This part is to emulate tides, slightly varrying the height of the water plane
-    private float time = 0.0f;
-    private float waterHeight = 0f;
-    private float initialWaterHeight = 90f;//0.8f;
-    TerrainQuad terrain;
     
+    private void initConfig() {   
+        AppSettings settings = new AppSettings(true);
+        settings.setFrameRate(30);
+        settings.setResolution(cfg.resolution.x, cfg.resolution.y);
+        settings.setFullscreen(cfg.fullscreen);
+        setSettings(settings);
+        setShowSettings(false);
+    }
     
-    @Override
-     public void simpleInitApp() {
-
-
-    terrain = new TerrainGrid("terrain", 513, 1025, new DynamicTileQuadLoader(new SimpleHeightmapSplatter(assetManager)));
-
-        //terrain = 
-        rootNode.attachChild(terrain);
+    private void initFilters() {
+        BloomFilter bloom = new BloomFilter();
+        bloom.setExposurePower(60);
+        bloom.setBloomIntensity(.8f);
+        fpp.addFilter(bloom);
         
-         TerrainLodControl control = new TerrainGridLodControl(terrain, getCamera());
-        control.setLodCalculator(new DistanceLodCalculator(513, 2.7f)); // patch size, and a multiplier
-        terrain.addControl(control);
-
+        LightScatteringFilter lsf = new LightScatteringFilter(lightDir.mult(30));
+        lsf.setLightDensity(.7f);
+        fpp.addFilter(lsf);
+        
+        DepthOfFieldFilter dof = new DepthOfFieldFilter();
+        dof.setBlurScale(.8f);
+        dof.setFocusDistance(20);
+        dof.setFocusRange(150);
+        fpp.addFilter(dof);
+    }
+    
+    private void initSkyline() {
         rootNode.attachChild(SkyFactory.createSky(assetManager, "Textures/BrightSky.dds", false));
-        
-        
-       water = new WaterFilter(rootNode, lightDir);
+    }
+    
+    private void initLODControl() {
+        TerrainLodControl control = new TerrainGridLodControl(terrain, getCamera());
+        control.setLodCalculator(new DistanceLodCalculator(cfg.patch, 2.7f));
+        terrain.addControl(control);
+    }
 
-        FilterPostProcessor fpp = new FilterPostProcessor(assetManager);
-
-        fpp.addFilter(water);
-//        BloomFilter bloom = new BloomFilter();
-//        //bloom.getE
-//        bloom.setExposurePower(55);
-//        bloom.setBloomIntensity(1.0f);
-//        fpp.addFilter(bloom);
-//        LightScatteringFilter lsf = new LightScatteringFilter(lightDir.mult(-300));
-//        lsf.setLightDensity(1.0f);
-//        fpp.addFilter(lsf);
-//        DepthOfFieldFilter dof = new DepthOfFieldFilter();
-//        dof.setFocusDistance(0);
-//        dof.setFocusRange(100);
-//        fpp.addFilter(dof);
-//        
-
-        //   fpp.addFilter(new TranslucentBucketFilter());
-        //       
-
-        // fpp.setNumSamples(4);
-
-
-        water.setWaveScale(0.003f);
-        water.setMaxAmplitude(2f);
-        water.setFoamExistence(new Vector3f(1f, 4, 0.5f));
-        water.setFoamTexture((Texture2D) assetManager.loadTexture("Common/MatDefs/Water/Textures/foam2.jpg"));
-        //water.setNormalScale(0.5f);
-
-        //water.setRefractionConstant(0.25f);
-        water.setRefractionStrength(0.2f);
-        //water.setFoamHardness(0.6f);
-
-        water.setWaterHeight(initialWaterHeight);
-        water.setWaveScale(0.003f);
-        water.setMaxAmplitude(2f);
-        water.setFoamExistence(new Vector3f(1f, 4, 0.5f));
-        water.setFoamTexture((Texture2D) assetManager.loadTexture("Common/MatDefs/Water/Textures/foam2.jpg"));
-        //water.setNormalScale(0.5f);
-
-        //water.setRefractionConstant(0.25f);
-        water.setRefractionStrength(0.2f);
-        //water.setFoamHardness(0.6f);
-
-        water.setWaterHeight(initialWaterHeight);
-
-      
-        //  
-        viewPort.addProcessor(fpp);
-
-        
-        flyCam.setMoveSpeed(100);
-        cam.setLocation(new Vector3f(0, 128, 0));
+    private void addOriginMarker() {
         Geometry origin = new Geometry("OriginAnchor", new Box(.2f, 256, .2f));
-
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/UnshadedNodes.j3md");
         mat.setColor("Color", new ColorRGBA(1,0,0,0.5f));
-        
        
         origin.setMaterial(mat);
         rootNode.attachChild(origin);
-//        
-//        TerrainProvider terrain = new SimpleSimplexNoiseTerrain(128, 128, 0);
-//        (new TerrainRenderer(new TextureMapper(assetManager, terrain.getHeightBound()), terrain, rootNode)).render();
-        // (new TerrainRenderer(new DummyMapper(assetManager), new OpenSimplexNoiseTerrain(256, 256), rootNode)).render();
+    }
+    
+    private Vector3f lightDir = new Vector3f(2f, 10f, 6f);
+    private TerrainQuad terrain;
+    private WaterProvider waterProvider;
+    
+    @Override
+    public void simpleInitApp() {
+        fpp = new FilterPostProcessor(assetManager);
+        initFilters();
+        initSkyline();
 
-//
-//
-//        FilterPostProcessor fpp = new FilterPostProcessor(assetManager);
-//        fpp.addFilter(new CartoonEdgeFilter());
-//        viewPort.addProcessor(fpp);
+        terrain = new TerrainGrid("terrain", cfg.patch, cfg.tile, new DynamicTileQuadLoader(new SimpleHeightmapSplatter(assetManager)));
+        rootNode.attachChild(terrain);
+        initLODControl();
+        
+        waterProvider = new WaterProvider(rootNode, lightDir, assetManager);
+        fpp.addFilter(waterProvider.getFilter());
 
+
+        viewPort.addProcessor(fpp);
+
+        addOriginMarker();
+        
+        flyCam.setMoveSpeed(100);
+        cam.setLocation(new Vector3f(0, 200, 0));
     }
 
-
-
     @Override
-    public void simpleUpdate(float tpf) {
-                super.simpleUpdate(tpf);
-        //     box.updateGeometricState();
-        time += tpf;
-        waterHeight = (float) Math.cos(((time * 0.6f) % FastMath.TWO_PI)) * 1.5f;
-        water.setWaterHeight(initialWaterHeight + waterHeight);
-    }
-
-    @Override
-    public void simpleRender(RenderManager rm) {
-        //TODO: add render code
+    public void simpleUpdate(float diff) {
+        super.simpleUpdate(diff);
+        waterProvider.updateState(diff);
     }
 }
