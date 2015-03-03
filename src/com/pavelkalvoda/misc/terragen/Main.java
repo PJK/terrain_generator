@@ -51,13 +51,21 @@ import javax.imageio.ImageIO;
  * @author normenhansen
  */
 public class Main extends SimpleApplication {
+    Config cfg;
+    
     public static void main(String[] args) {
+       
         AppSettings settings = new AppSettings(true);
         settings.setFrameRate(30);
         settings.setResolution(1280, 720);
         //settings.setFullscreen(true);
-        settings.setFrequency(50);
+        settings.setFrequency(30);
         Main app = new Main();
+        try {
+            app.cfg = new Config(args);
+        } catch (Config.HelpRunException e) {
+            return;
+        }
         app.setSettings(settings);
         app.setShowSettings(false);
         app.start();
@@ -70,15 +78,14 @@ public class Main extends SimpleApplication {
     private float time = 0.0f;
     private float waterHeight = 0f;
     private float initialWaterHeight = 90f;//0.8f;
-    private boolean uw = false;
     TerrainQuad terrain;
     
     
     @Override
      public void simpleInitApp() {
-                
 
-    terrain = new TerrainGrid("terrain", 513, 2049, new DynamicTileQuadLoader(new SimpleHeightmapSplatter(assetManager)));
+
+    terrain = new TerrainGrid("terrain", 513, 1025, new DynamicTileQuadLoader(new SimpleHeightmapSplatter(assetManager)));
 
         //terrain = 
         rootNode.attachChild(terrain);
@@ -137,7 +144,6 @@ public class Main extends SimpleApplication {
         //water.setFoamHardness(0.6f);
 
         water.setWaterHeight(initialWaterHeight);
-        uw = cam.getLocation().y < waterHeight;
 
       
         //  
@@ -176,13 +182,6 @@ public class Main extends SimpleApplication {
         time += tpf;
         waterHeight = (float) Math.cos(((time * 0.6f) % FastMath.TWO_PI)) * 1.5f;
         water.setWaterHeight(initialWaterHeight + waterHeight);
-        if (water.isUnderWater() && !uw) {
-            uw = true;
-        }
-        if (!water.isUnderWater() && uw) {
-            uw = false;
-
-        }
     }
 
     @Override

@@ -38,27 +38,30 @@ public class SimpleHeightmapSplatter implements SplatGenerator {
     }
     
     protected Material buildMaterial() {
-          Material baseMaterial = new Material(assetManager, "Common/MatDefs/Terrain/HeightBasedTerrain.j3md");
-        //Material baseMaterial = new Material(assetManager, "Common/MatDefs/Terrain/HeightBasedTerrain.j3md");
-        //baseMaterial.setBoolean("useTriPlanarMapping", false);
-        Texture grass = assetManager.loadTexture("Textures/Grass.jpg");
-        grass.setWrap(Texture.WrapMode.Repeat);
-        baseMaterial.setTexture("region1ColorMap", grass);
-        baseMaterial.setVector3("region1", new Vector3f(15, 90, 32f));
+        Material baseMaterial = new Material(assetManager, "Common/MatDefs/Terrain/HeightBasedTerrain.j3md");
         baseMaterial.setFloat("slopeTileFactor", 32);
         baseMaterial.setFloat("terrainSize", 513);
-        //baseMaterial.setFloat("Tex1Scale", 32f);
-        Texture grassy_rock = assetManager.loadTexture("Textures/Pond.jpg");
-        grassy_rock.setWrap(Texture.WrapMode.Repeat);
-        baseMaterial.setTexture("region3ColorMap", grassy_rock);
-        baseMaterial.setVector3("region3", new Vector3f(0, 15, 32f));
-        //baseMaterial.setTexture("Tex2", grassy_rock);
-        //baseMaterial.setFloat("Tex2Scale", 32f);
+        
+        Texture sand = assetManager.loadTexture("Textures/Sand.jpg");
+        sand.setWrap(Texture.WrapMode.Repeat);
+        baseMaterial.setTexture("region1ColorMap", sand);
+        baseMaterial.setVector3("region1", new Vector3f(0, 50, 32f));
+        
+        Texture grass = assetManager.loadTexture("Textures/Grass.jpg");
+        grass.setWrap(Texture.WrapMode.Repeat);
+        baseMaterial.setTexture("region2ColorMap", grass);
+        baseMaterial.setVector3("region2", new Vector3f(50, 210, 32f));
+        
+        
+        Texture snow = assetManager.loadTexture("Textures/Snow.jpg");
+        snow.setWrap(Texture.WrapMode.Repeat);
+        baseMaterial.setTexture("region3ColorMap", snow);
+        baseMaterial.setVector3("region3", new Vector3f(210, 250, 32f));
+        
         Texture rock = assetManager.loadTexture("Textures/Rock.jpg");
         rock.setWrap(Texture.WrapMode.Repeat);
         baseMaterial.setTexture("slopeColorMap", rock);
-        //baseMaterial.setTexture("Tex3", rock);
-        //baseMaterial.setFloat("Tex3Scale", 32f);
+
         return baseMaterial;
     }
 }

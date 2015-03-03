@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pavelkalvoda.misc.terragen.terrain;
 
 import com.jme3.terrain.heightmap.HeightMap;
@@ -35,19 +31,21 @@ public class MultipassSimplexNoiseTerrain implements HeightMap {
         this.noisegen = noisegen;
         this.size = size;
         this.displacer = displacer;
+        // These are arbitrary, but pretty hard to balance. Modify with caution
         octs = new Octave[] { 
-            new Octave(.05f, 1.2f),
-            new Octave(.6f, .9f),
-            new Octave(2, 0.5f),
-            new Octave(6, .2f) 
+            new Octave(.05f, 10f),
+            new Octave(.6f, 4f),
+            new Octave(2, 1f),
+            new Octave(6, .5f),
+            new Octave(10, .2f) 
         };
     }
 
     
-    private final double featureQuant = 512;
+    private final double featureQuant = 720;
     
     public float height(float x, float y) {
-        return (float)(noisegen.noise(x / featureQuant, y / featureQuant) + 1) * 64;
+        return (float)(noisegen.noise(x / featureQuant, y / featureQuant) + .5) * 32;
     }
     
     
@@ -57,11 +55,11 @@ public class MultipassSimplexNoiseTerrain implements HeightMap {
     }
 
     public float[] getScaledHeightMap() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return getHeightMap();
     }
 
     public float getInterpolatedHeight(float x, float z) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return getScaledHeightAtPoint((int)x, (int)z);
     }
 
     public float getScaledHeightAtPoint(int x, int z) {
@@ -74,7 +72,7 @@ public class MultipassSimplexNoiseTerrain implements HeightMap {
     }
 
     public float getTrueHeightAtPoint(int x, int z) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return getScaledHeightAtPoint(x, z);
     }
 
     public boolean load() {
@@ -83,12 +81,11 @@ public class MultipassSimplexNoiseTerrain implements HeightMap {
             for (int x = 0; x < size; x++)
                 for (int y = 0; y < size; y++) {
                     map[y * size + x] = 0f;
-                    for (Octave oct : octs) {
+                    for (Octave oct : octs)
                         map[y * size + x] += oct.amp * height(
                                     oct.freq * displacer.displaceX(x), 
                                     oct.freq * displacer.displaceY(y)
                                 );
-                    }
                 }
             return true;
         } else {
@@ -97,23 +94,22 @@ public class MultipassSimplexNoiseTerrain implements HeightMap {
     }
 
     public void setHeightAtPoint(float height, int x, int z) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void setHeightScale(float scale) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void setMagnificationFilter(float filter) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void setSize(int size) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void unloadHeightMap() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        map = null;
     }
-    
 }
