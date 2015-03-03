@@ -29,7 +29,7 @@ public class ImageTool implements ImageWriter {
     public void saveImage(Image img, String path) {
         try {
             // retrieve image
-            JmeSystem.writeImageFile(new FileOutputStream(path, false), "png", img.getData(0), img.getWidth(), img.getHeight());
+            JmeSystem.writeImageFile(new FileOutputStream(basePath + "/" + path, false), "png", img.getData(0), img.getWidth(), img.getHeight()); // This is fugly
         } catch (IOException e) {}
     }
      
