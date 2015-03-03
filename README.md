@@ -57,8 +57,10 @@ All of the options are optional.
 
 ## Dependencies
 
-(JMonkey engine 3)[http://jmonkeyengine.org/]
+[JMonkey engine 3](http://jmonkeyengine.org/)
 
 ## License
+
 GPL. See `LICENSE`. Pavel Kalvoda, 2015
+
 Textures are courtesy of http://www.cgtextures.com/ and therefore subject to their license.
