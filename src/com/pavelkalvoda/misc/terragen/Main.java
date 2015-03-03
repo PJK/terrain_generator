@@ -95,8 +95,10 @@ public class Main extends SimpleApplication {
         rootNode.attachChild(terrain);
         initLODControl();
         
-        waterProvider = new WaterProvider(rootNode, lightDir, assetManager);
-        fpp.addFilter(waterProvider.getFilter());
+        if (cfg.getWaterEnabled()) {
+            waterProvider = new WaterProvider(rootNode, lightDir, assetManager);
+            fpp.addFilter(waterProvider.getFilter());
+        }
 
 
         viewPort.addProcessor(fpp);
@@ -110,6 +112,7 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleUpdate(float diff) {
         super.simpleUpdate(diff);
-        waterProvider.updateState(diff);
+        if (cfg.getWaterEnabled())
+            waterProvider.updateState(diff);
     }
 }
