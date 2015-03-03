@@ -1,13 +1,17 @@
 # Terrain Generator
-Simple random terrains generated from simplex noise
+Simple random terrains generated from simplex noise. 
+
+### Features
+- Simple and multipass smooth terrain generation
+- 3 texture mapping modes
+- Multithreaded terrain generation
+- Fancy water
 
 ## Screenshots
 
 TODO
 
 ## Build
-
-Prerequisites: JDK 7, ant, JME3
 
 ```
 ant
