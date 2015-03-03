@@ -7,6 +7,8 @@ TODO
 
 ## Build
 
+Prerequisites: JDK 7, ant, JME3
+
 ```
 ant
 ```
