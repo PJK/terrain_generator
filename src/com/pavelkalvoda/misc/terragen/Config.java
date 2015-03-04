@@ -18,8 +18,8 @@ public class Config {
     protected Mapping mapping = Mapping.Simple;
     protected int patch = 513, tile = 2049;
     protected String bitmapsDir;
-    protected boolean fullscreen = false;
-    protected Vector2i resolution = new Vector2i(1280, 720);
+    protected boolean fullscreen = true;
+    protected Vector2i resolution = new Vector2i(1920, 1200);
     
     // Signals errorneous configuration - we still want a clean shutdown
     public class HelpRunException extends RuntimeException {}
@@ -125,8 +125,8 @@ public class Config {
         out.println("\t\t\t\tDefault: " + terrain + "\n");
         
         out.println("\t--mapping\t\tsimple\t\tuniform smooth height-based map with 3 texture and slope\n\t\t\t\t\t\tdetection (fastest)");
-        out.println("\t\t\t\tunifrom\t\tuniform smooth height-based map with <TODO> textures,\n\t\t\t\t\t\toptionally outputs PNGs");
-        out.println("\t\t\t\trandomized\trandomized smooth height-based map with <TODO> textures,\n\t\t\t\t\t\toptionally outputs PNGs (fanciest)");
+        out.println("\t\t\t\tunifrom\t\tuniform smooth height-based map with 3 textures,\n\t\t\t\t\t\toptionally outputs PNGs");
+        out.println("\t\t\t\trandomized\trandomized smooth height-based map with 3 + 1 textures,\n\t\t\t\t\t\toptionally outputs PNGs (fanciest)");
         out.println("\t\t\t\tDefault: " + mapping + "\n");
          
         out.println("\t--size\t\t\tTerrain is loaded by tiles (controls viewing distance & performance)"

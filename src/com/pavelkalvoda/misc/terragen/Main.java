@@ -36,6 +36,7 @@ public class Main extends SimpleApplication {
     private void initConfig() {   
         AppSettings settings = new AppSettings(true);
         settings.setFrameRate(30);
+        settings.setFrequency(50);
         settings.setResolution(cfg.resolution.x, cfg.resolution.y);
         settings.setFullscreen(cfg.fullscreen);
         setSettings(settings);
