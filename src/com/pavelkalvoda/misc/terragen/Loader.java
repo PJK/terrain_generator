@@ -9,6 +9,7 @@ import com.jme3.terrain.heightmap.HeightMap;
 import com.pavelkalvoda.misc.terragen.images.*;
 import com.pavelkalvoda.misc.terragen.mapping.*;
 import com.pavelkalvoda.misc.terragen.terrain.*;
+import java.util.Random;
 /**
  *
  * @author pjk
@@ -43,8 +44,12 @@ public class Loader {
         switch (cfg.mapping) {
             case Simple:
                 splatter = new SimpleHeightmapSplatter(assetManager);
+                break;
             case Uniform:
                 splatter = new UniformHeightmapSplatter(assetManager, this);
+                break;
+            case Randomized:
+                splatter = new RandomizedHeightmapSplatter(assetManager, this);
         }
     }
     

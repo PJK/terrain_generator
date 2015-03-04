@@ -26,4 +26,8 @@ public class Vector2i {
         public String toString() {
             return String.format("(%d, %d)", x, y);
         }
+        
+        public Vector2i add(Vector2i other) {
+            return new Vector2i(x + other.x, y + other.y);
+        }
 }
