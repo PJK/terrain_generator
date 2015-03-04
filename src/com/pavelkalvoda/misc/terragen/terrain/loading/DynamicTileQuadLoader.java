@@ -19,6 +19,13 @@ public class DynamicTileQuadLoader implements TerrainGridTileLoader {
     public DynamicTileQuadLoader(Loader loader) {
         this.loader = loader;
     }
+    
+    // Terrain height at (0, 0)
+    public float getInitialHeight() {
+        return loader.buildHeightMap(quadSize,
+                            new GridDisplacer(quadSize - 1, new Vector2i(0,0)),
+                            loader.getGenerator()).getInterpolatedHeight(0f, 0f);
+    }
 
     public TerrainQuad getTerrainQuadAt(Vector3f location) {
         HeightMap terrain = loader.buildHeightMap(quadSize,

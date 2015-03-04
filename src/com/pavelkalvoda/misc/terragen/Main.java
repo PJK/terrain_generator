@@ -74,11 +74,12 @@ public class Main extends SimpleApplication {
     }
 
     private void addOriginMarker() {
-        Geometry origin = new Geometry("OriginAnchor", new Box(.2f, 256, .2f));
+        Geometry origin = new Geometry("OriginAnchor", new Box(.2f, 512, .2f));
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/UnshadedNodes.j3md");
         mat.setColor("Color", new ColorRGBA(1,0,0,0.5f));
        
         origin.setMaterial(mat);
+        origin.setLocalTranslation(new Vector3f(0, 0, 0));
         rootNode.attachChild(origin);
     }
     
@@ -95,7 +96,8 @@ public class Main extends SimpleApplication {
 
         loader = new Loader(cfg, assetManager);
         
-        terrain = new TerrainGrid("terrain", cfg.patch, cfg.tile, new DynamicTileQuadLoader(loader));
+        DynamicTileQuadLoader tileLoader = new DynamicTileQuadLoader(loader);
+        terrain = new TerrainGrid("terrain", cfg.patch, cfg.tile, tileLoader);
         rootNode.attachChild(terrain);
         initLODControl();
         
@@ -110,7 +112,7 @@ public class Main extends SimpleApplication {
         addOriginMarker();
         
         flyCam.setMoveSpeed(150);
-        cam.setLocation(new Vector3f(0, 400, 0));
+        cam.setLocation(new Vector3f(0, tileLoader.getInitialHeight() + 100, 0));
         flyCam.setDragToRotate(true);
     }
 
