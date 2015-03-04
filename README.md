@@ -78,4 +78,4 @@ All of the options are optional.
 
 GPL. See `LICENSE`. Pavel Kalvoda, 2015
 
-Textures are courtesy of http://www.cgtextures.com/ and therefore subject to their license.`
+Textures are courtesy of http://www.cgtextures.com/ and therefore subject to their license.
