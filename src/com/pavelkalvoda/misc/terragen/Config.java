@@ -16,7 +16,7 @@ public class Config {
     protected long seed = 0;
     protected Terrain terrain = Terrain.Multipass;
     protected Mapping mapping = Mapping.Simple;
-    protected int patch = 257, tile = 1025;
+    protected int patch = 513, tile = 1025;
     protected String bitmapsDir;
     protected boolean fullscreen = false;
     protected Vector2i resolution = new Vector2i(1280, 720);

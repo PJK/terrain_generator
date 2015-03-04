@@ -1,6 +1,9 @@
 package com.pavelkalvoda.misc.terragen;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.input.KeyInput;
+import com.jme3.input.controls.KeyTrigger;
+import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -85,6 +88,7 @@ public class Main extends SimpleApplication {
     
     @Override
     public void simpleInitApp() {
+                
         fpp = new FilterPostProcessor(assetManager);
         initFilters();
         initSkyline();
@@ -105,8 +109,9 @@ public class Main extends SimpleApplication {
 
         addOriginMarker();
         
-        flyCam.setMoveSpeed(100);
-        cam.setLocation(new Vector3f(0, 200, 0));
+        flyCam.setMoveSpeed(50);
+        cam.setLocation(new Vector3f(0, 400, 0));
+        flyCam.setDragToRotate(true);
     }
 
     @Override
