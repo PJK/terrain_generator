@@ -2,13 +2,8 @@ package com.pavelkalvoda.misc.terragen.terrain;
 
 import com.jme3.terrain.heightmap.HeightMap;
 import com.pavelkalvoda.misc.terragen.GridDisplacer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
 
-/**
- *
- * @author pjk
- */
 public class MultipassSimplexNoiseTerrain implements HeightMap {
     private static final Logger logger = Logger.getLogger(MultipassSimplexNoiseTerrain.class.getName());
     

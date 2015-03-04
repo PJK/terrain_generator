@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pavelkalvoda.misc.terragen.images;
 
 import com.jme3.math.ColorRGBA;
@@ -9,16 +5,9 @@ import com.jme3.system.JmeSystem;
 import com.jme3.texture.Image;
 import com.jme3.texture.image.ImageRaster;
 import com.jme3.util.BufferUtils;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 
-/**
- *
- * @author pjk
- */
 public class ImageTool implements ImageWriter {
     protected String basePath;
 

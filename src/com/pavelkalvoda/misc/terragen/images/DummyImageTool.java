@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pavelkalvoda.misc.terragen.images;
 
 import com.jme3.texture.Image;

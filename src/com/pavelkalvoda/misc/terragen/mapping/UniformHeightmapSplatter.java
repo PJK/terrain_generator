@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pavelkalvoda.misc.terragen.mapping;
 
 import com.jme3.asset.AssetManager;
@@ -16,12 +12,7 @@ import com.jme3.texture.Texture2D;
 import com.jme3.texture.image.ImageRaster;
 import com.jme3.util.BufferUtils;
 import com.pavelkalvoda.misc.terragen.Loader;
-import com.pavelkalvoda.misc.terragen.images.ImageTool;
 
-/**
- *
- * @author pjk
- */
 public class UniformHeightmapSplatter implements SplatGenerator {
 
     protected AssetManager assetManager;

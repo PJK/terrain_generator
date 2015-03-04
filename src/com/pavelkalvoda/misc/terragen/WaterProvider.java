@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pavelkalvoda.misc.terragen;
 
 import com.jme3.asset.AssetManager;
@@ -11,10 +7,6 @@ import com.jme3.scene.Node;
 import com.jme3.texture.Texture2D;
 import com.jme3.water.WaterFilter;
 
-/**
- *
- * @author pjk
- */
 public class WaterProvider {
 
     protected Node target;

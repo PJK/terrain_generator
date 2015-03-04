@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pavelkalvoda.misc.terragen.mapping;
 
 import com.jme3.asset.AssetManager;
@@ -48,6 +44,6 @@ public class RandomizedHeightmapSplatter extends UniformHeightmapSplatter {
     // Hackety hack catch me if you can
     @Override
     protected float getModifier(int x, int y) {
-        return heightMapper.getScaledHeightAtPoint(x, y) / 1.3f - 90;
+        return heightMapper.getScaledHeightAtPoint(x, y) / 1.3f - 150;
     }
 }

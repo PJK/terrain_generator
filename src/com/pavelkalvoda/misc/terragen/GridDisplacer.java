@@ -1,13 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pavelkalvoda.misc.terragen;
 
-/**
- *
- * @author pjk
- */
 public class GridDisplacer {
     private int chunkSize;
     private Vector2i chunkLocation;

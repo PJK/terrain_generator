@@ -1,15 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pavelkalvoda.misc.terragen.terrain;
 
 import java.util.Random;
 
-/**
- *
- * @author pjk
- */
 // Based on 
 // http://staffwww.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf
 // http://www.csee.umbc.edu/~olano/s2002c36/ch02.pdf

@@ -1,20 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pavelkalvoda.misc.terragen.terrain;
 
-import com.jme3.terrain.geomipmap.TerrainGridTileLoader;
 import com.jme3.terrain.heightmap.HeightMap;
 import com.pavelkalvoda.misc.terragen.GridDisplacer;
-import com.pavelkalvoda.misc.terragen.Vector2i;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author pjk
- */
 public class SimpleSimplexNoiseTerrain implements HeightMap {
     private static final Logger logger = Logger.getLogger(SimpleSimplexNoiseTerrain.class.getName());
     int size;

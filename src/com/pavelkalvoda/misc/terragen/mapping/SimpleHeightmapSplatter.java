@@ -1,25 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pavelkalvoda.misc.terragen.mapping;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.terrain.heightmap.HeightMap;
-import com.jme3.texture.Image;
 import com.jme3.texture.Texture;
-import com.jme3.texture.Texture2D;
-import com.jme3.texture.image.ImageRaster;
-import com.jme3.util.BufferUtils;
-import com.pavelkalvoda.misc.terragen.images.ImageTool;
 
-/**
- *
- * @author pjk
- */
 public class SimpleHeightmapSplatter implements SplatGenerator {
 
     protected AssetManager assetManager;

@@ -1,26 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pavelkalvoda.misc.terragen.terrain.loading;
 
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.math.Vector3f;
-import com.jme3.terrain.geomipmap.TerrainGridTileLoader;
-import com.jme3.terrain.geomipmap.TerrainQuad;
+import com.jme3.terrain.geomipmap.*;
 import com.jme3.terrain.heightmap.HeightMap;
-import com.pavelkalvoda.misc.terragen.GridDisplacer;
-import com.pavelkalvoda.misc.terragen.images.ImageTool;
-import com.pavelkalvoda.misc.terragen.Loader;
-import com.pavelkalvoda.misc.terragen.Vector2i;
+import com.pavelkalvoda.misc.terragen.*;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-/**
- *
- * @author pjk
- */
 public class DynamicTileQuadLoader implements TerrainGridTileLoader {
 
     private static final Logger logger = Logger.getLogger(TerrainGridTileLoader.class.getName());
