@@ -28,6 +28,8 @@ ant
 
 ## Usage
 
+Controls: WASD to move, mouse drag to rotate the camera
+
 ```
 ⇒  java -jar dist/terrain_generator.jar -h                                                            [0]
 Usage:  java -jar path_to/terrain_generator.jar -h --[no-]water --seed <seed>
@@ -49,15 +51,15 @@ All of the options are optional.
 
         --mapping               simple          uniform smooth height-based map with 3 texture and slope
                                                 detection (fastest)
-                                unifrom         uniform smooth height-based map with <TODO> textures,
+                                unifrom         uniform smooth height-based map with 3 textures,
                                                 optionally outputs PNGs
-                                randomized      randomized smooth height-based map with <TODO> textures,
+                                randomized      randomized smooth height-based map with 3 + 1 textures,
                                                 optionally outputs PNGs (fanciest)
                                 Default: Simple
 
         --size                  Terrain is loaded by tiles (controls viewing distance & performance)
                                 which are stored in Q trees by patches. Both must be N^2 + 1
-                                Default: 513, 2049
+                                Default: 513, 1025
 
         --write-bitmaps         Output PNG heightmaps & texture splatting alpha maps to
                                 the specified directory
@@ -69,6 +71,24 @@ All of the options are optional.
         --resolution            Resolution in px (availability is system-dependent)
                                 Default: (1280, 720)
 ```
+
+### Memory
+JME3 uses direct buffer allocation to store terrain meshes. Depending on your system settings, you might need to increase the default JVM limit
+using -XX:MaxDirectMemorySize=<num>(M|G)`. This number will depend on your system architecture, JVM version, and, more importantly, on terrain tile size.
+
+Insufficient available memory will result in errors such as
+```
+java.lang.OutOfMemoryError: Direct buffer memory
+	at java.nio.Bits.reserveMemory(Bits.java:658)
+	at java.nio.DirectByteBuffer.<init>(DirectByteBuffer.java:123)
+	at java.nio.ByteBuffer.allocateDirect(ByteBuffer.java:311)
+        [...]
+	at com.pavelkalvoda.misc.terragen.terrain.loading.DynamicTileQuadLoader.getTerrainQuadAt(DynamicTileQuadLoader.java:28)
+        [...]
+```
+which will prevent chunks from loading (creating void holes in the terrain).
+
+For OpenJDK 1.7 on 64bit linux and OS X with the default generator settings, `-Xmx512M -XX:MaxDirectMemorySize=512M` works just fine.
 
 ## Dependencies
 

@@ -109,7 +109,7 @@ public class Main extends SimpleApplication {
 
         addOriginMarker();
         
-        flyCam.setMoveSpeed(50);
+        flyCam.setMoveSpeed(150);
         cam.setLocation(new Vector3f(0, 400, 0));
         flyCam.setDragToRotate(true);
     }
