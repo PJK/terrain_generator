@@ -9,7 +9,14 @@ Simple random terrains generated from simplex noise.
 
 ## Screenshots
 
-TODO
+#### Noise visualization (height & texture splatting)
+![Splat map](https://raw.githubusercontent.com/PJK/terrain_generator/previews/out1.png)
+![Height map](https://raw.githubusercontent.com/PJK/terrain_generator/previews/out2.png)
+
+#### Actual screenshots
+![Screnshot](https://raw.githubusercontent.com/PJK/terrain_generator/previews/s1.png)
+![Screnshot](https://raw.githubusercontent.com/PJK/terrain_generator/previews/s2.png)
+![Screnshot](https://raw.githubusercontent.com/PJK/terrain_generator/previews/s3.png)
 
 ## Build
 
