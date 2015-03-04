@@ -16,10 +16,10 @@ public class Config {
     protected long seed = 0;
     protected Terrain terrain = Terrain.Multipass;
     protected Mapping mapping = Mapping.Simple;
-    protected int patch = 513, tile = 2049;
+    protected int patch = 257, tile = 1025;
     protected String bitmapsDir;
-    protected boolean fullscreen = true;
-    protected Vector2i resolution = new Vector2i(1920, 1200);
+    protected boolean fullscreen = false;
+    protected Vector2i resolution = new Vector2i(1280, 720);
     
     // Signals errorneous configuration - we still want a clean shutdown
     public class HelpRunException extends RuntimeException {}
