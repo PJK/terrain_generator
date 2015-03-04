@@ -74,7 +74,7 @@ All of the options are optional.
 
 ### Memory
 JME3 uses direct buffer allocation to store terrain meshes. Depending on your system settings, you might need to increase the default JVM limit
-using -XX:MaxDirectMemorySize=<num>(M|G)`. This number will depend on your system architecture, JVM version, and, more importantly, on terrain tile size.
+using `-XX:MaxDirectMemorySize=<num>(M|G)`. This number will depend on your system architecture, JVM version, and, more importantly, on terrain tile size.
 
 Insufficient available memory will result in errors such as
 ```
@@ -88,7 +88,11 @@ java.lang.OutOfMemoryError: Direct buffer memory
 ```
 which will prevent chunks from loading (creating void holes in the terrain).
 
-For OpenJDK 1.7 on 64bit linux and OS X with the default generator settings, `-Xmx512M -XX:MaxDirectMemorySize=512M` works just fine.
+For OpenJDK 1.7 on 64bit linux and OS X with the default generator settings, `-Xmx512M -XX:MaxDirectMemorySize=512M` works just fine. Total of 1GB will be used. 
+Remember to to use these flags before `-jar`, i.e. 
+```
+java -Xmx512M -XX:MaxDirectMemorySize=512M -jar dist/terrain_generator.jar
+```
 
 ## Dependencies
 
