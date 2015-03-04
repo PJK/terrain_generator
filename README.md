@@ -1,5 +1,5 @@
 # Terrain Generator
-Simple random terrains generated from simplex noise. 
+Simple random terrains generated from [simplex noise](http://en.wikipedia.org/wiki/Simplex_noise). 
 
 ### Features
 - Simple and multipass smooth terrain generation
